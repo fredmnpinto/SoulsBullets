@@ -104,19 +104,19 @@ namespace Unity.FPS.AI
         public NavMeshAgent NavMeshAgent { get; private set; }
         public DetectionModule DetectionModule { get; private set; }
 
-        int m_PathDestinationNodeIndex;
-        EnemyManager m_EnemyManager;
-        ActorsManager m_ActorsManager;
-        Health m_Health;
-        Actor m_Actor;
-        Collider[] m_SelfColliders;
-        GameFlowManager m_GameFlowManager;
-        bool m_WasDamagedThisFrame;
-        float m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
-        int m_CurrentWeaponIndex;
-        WeaponController m_CurrentWeapon;
-        WeaponController[] m_Weapons;
-        NavigationModule m_NavigationModule;
+        protected int m_PathDestinationNodeIndex;
+        protected EnemyManager m_EnemyManager;
+        protected ActorsManager m_ActorsManager;
+        protected Health m_Health;
+        protected Actor m_Actor;
+        protected Collider[] m_SelfColliders;
+        protected GameFlowManager m_GameFlowManager;
+        protected bool m_WasDamagedThisFrame;
+        protected float m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
+        protected int m_CurrentWeaponIndex;
+        protected WeaponController m_CurrentWeapon;
+        protected WeaponController[] m_Weapons;
+        protected NavigationModule m_NavigationModule;
 
         void Start()
         {
@@ -466,14 +466,14 @@ namespace Unity.FPS.AI
                 // Set the first weapon of the weapons list as the current weapon
                 SetCurrentWeapon(0);
             }
-
+ 
             DebugUtility.HandleErrorIfNullGetComponent<WeaponController, EnemyController>(m_CurrentWeapon, this,
                 gameObject);
 
             return m_CurrentWeapon;
         }
 
-        void SetCurrentWeapon(int index)
+        protected void SetCurrentWeapon(int index)
         {
             m_CurrentWeaponIndex = index;
             m_CurrentWeapon = m_Weapons[m_CurrentWeaponIndex];
