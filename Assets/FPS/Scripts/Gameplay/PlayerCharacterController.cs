@@ -353,6 +353,8 @@ namespace Unity.FPS.Gameplay
                     if (!_alreadyDoubleJumped && m_InputHandler.GetJumpInputDown())
                     {
                         Jump();
+
+                        _alreadyDoubleJumped = true;
                     }
 
                     // apply the gravity to the velocity
@@ -474,8 +476,6 @@ namespace Unity.FPS.Gameplay
 
         private void Jump()
         {
-            Debug.Log("Jumped!");
-
             // force the crouch state to false
             if (SetCrouchingState(false, false))
             {
@@ -505,8 +505,6 @@ namespace Unity.FPS.Gameplay
             {
                 return;
             }
-
-            Debug.Log("Dashed");
 
             // force the crouch state to false
             if (SetCrouchingState(false, false))

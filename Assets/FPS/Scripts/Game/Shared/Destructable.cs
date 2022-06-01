@@ -23,8 +23,7 @@ namespace Unity.FPS.Game
 
         void OnDie()
         {
-            // this will call the OnDestroy function
-            Destroy(gameObject);
+            
         }
     }
 }
