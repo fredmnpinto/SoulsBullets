@@ -55,6 +55,9 @@ namespace Unity.FPS.Gameplay
         [Header("Debug")] [Tooltip("Color of the projectile radius debug view")]
         public Color RadiusColor = Color.cyan * 0.2f;
 
+        [Header("Minhas configs")] [Tooltip("Odeio templates")]
+        public bool ShouldIgnoreColliders;
+
         ProjectileBase m_ProjectileBase;
         Vector3 m_LastRootPosition;
         Vector3 m_Velocity;
@@ -86,8 +89,11 @@ namespace Unity.FPS.Gameplay
             transform.position += m_ProjectileBase.InheritedMuzzleVelocity * Time.deltaTime;
 
             // Ignore colliders of owner
-            Collider[] ownerColliders = m_ProjectileBase.Owner.GetComponentsInChildren<Collider>();
-            m_IgnoredColliders.AddRange(ownerColliders);
+            if (ShouldIgnoreColliders)
+            {
+                Collider[] ownerColliders = m_ProjectileBase.Owner.GetComponentsInChildren<Collider>();
+                m_IgnoredColliders.AddRange(ownerColliders);
+            }
 
             // Handle case of player shooting (make projectiles not go through walls, and remember center-of-screen trajectory)
             PlayerWeaponsManager playerWeaponsManager = m_ProjectileBase.Owner.GetComponent<PlayerWeaponsManager>();

@@ -3,6 +3,7 @@ using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace Unity.FPS.AI
 {
@@ -372,8 +373,8 @@ namespace Unity.FPS.AI
                 Instantiate(LootPrefab, transform.position, Quaternion.identity);
             }
 
-            // this will call the OnDestroy function
-            Destroy(gameObject, DeathDuration);
+            // this will call the OnDestroy function and destroy the object
+            Destroy(gameObject);
         }
 
         void OnDrawGizmosSelected()
