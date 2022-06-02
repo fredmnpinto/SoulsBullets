@@ -3,10 +3,9 @@ using System.Collections;
 using System.Threading.Tasks;
 using Unity.FPS.AI;
 using Unity.FPS.Game;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Timeline;
-using UnityEngine.UIElements;
 
 namespace FPS.Scripts.Bosses
 {
@@ -55,14 +54,7 @@ namespace FPS.Scripts.Bosses
 			// Drop a regular bomb but faster
 			_criticalAttackList[AttackType.RegularAttack] = new Action(() =>
 			{
-				Task.Run(() =>
-				{
-					for (var i = 0; i < 5; i++)
-					{
-						_bomberModule.DropBombCluster();
-						Task.Delay(500);
-					}
-				});
+				_bomberModule.DropBombCluster();
 			});
 
 			// Drop a minion to fight the player
@@ -96,7 +88,7 @@ namespace FPS.Scripts.Bosses
 			var cdScale = 1f;
 
 			if (_isPissed)
-				cdScale = 0.75f;
+				cdScale = 0.5f;
 
 			_timeOfNextAttack = Time.time + k_AttackCooldown * cdScale;
 		}
@@ -106,6 +98,8 @@ namespace FPS.Scripts.Bosses
 			var possibleAttacks = _attackList;
 
 			if (_isPissed) possibleAttacks = _criticalAttackList;
+
+			return (Action)possibleAttacks[AttackType.RegularAttack];
 
 			bool isPlayerFarAway = !_detectionModule.IsTargetInAttackRange;
 			if (isPlayerFarAway) return (Action)possibleAttacks[AttackType.OutOfRangeAttack];
@@ -134,6 +128,8 @@ namespace FPS.Scripts.Bosses
 			_navMeshAgent.acceleration *= pissedFactor;
 			_navMeshAgent.speed *= pissedFactor;
 			_navMeshAgent.angularSpeed *= 1 / pissedFactor;
+			
+			_bomberModule.OverloadBay();
 		}
 
 		/**

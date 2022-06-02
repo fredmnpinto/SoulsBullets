@@ -50,6 +50,32 @@ public class ObjectPooler : MonoBehaviour
 		SetupPool(new PoolableObject(prefab, quantity, poolKey));
 	}
 
+	public void IncreasePool(string key, int newAmount)
+	{
+		Queue<GameObject> pool = (Queue<GameObject>) pools[key];
+		PoolableObject poolable = GetPoolable(key);
+
+		for (int i = 0; i < newAmount - poolable.quantity; i++)
+		{
+			var go = Instantiate(poolable.prefab);
+			go.SetActive(false);
+			pool.Enqueue(go);
+		}
+	}
+
+	private PoolableObject GetPoolable(string key)
+	{
+		foreach (var poolable in objectsToPool)
+		{
+			if (poolable.poolKey == key)
+			{
+				return poolable;
+			}
+		}
+
+		throw new Exception($"Poolable with key = '{key}' does not exist");
+	}
+
 	/**
      * Checks if a GameObject has been pooled
      */

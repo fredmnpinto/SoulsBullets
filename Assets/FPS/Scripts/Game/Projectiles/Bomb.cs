@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.FPS.Game;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Bomb : MonoBehaviour
@@ -42,6 +37,7 @@ public class Bomb : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		
 	}
 
 	private void FixedUpdate()
@@ -54,10 +50,16 @@ public class Bomb : MonoBehaviour
 
 	private void OnEnable()
 	{
+		Debug.Log("é isso mesmo");
+		
 		OnInit();
-		PlaySpawnSfx();
 	}
 
+	public void OnDropped()
+	{
+		PlaySpawnSfx();
+	}
+	
 	private void PlaySpawnSfx()
 	{
 		AudioUtility.CreateSFX(spawnSfx, transform.position, AudioUtility.AudioGroups.EnemyAttack, 0f, 1f);

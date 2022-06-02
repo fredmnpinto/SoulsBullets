@@ -18,8 +18,6 @@ namespace FPS.Scripts.Bosses
 		private void Start()
 		{
 			_objectPooler = ObjectPooler.Instance;
-			
-			
 		}
 
 		public void DropBomb()
@@ -42,15 +40,25 @@ namespace FPS.Scripts.Bosses
 			SpawnCluster(_bombMinionPoolKey, 3);
 		}
 
+		public void OverloadBay()
+		{
+			_objectPooler.IncreasePool(_bombPoolKey, 100);
+		}
+
 		private void InstaciateAtLocation(string poolKey, float randomness)
 		{
 			var drop = _objectPooler.Spawn(poolKey);
 			
 
-			var randomFactor = Random.insideUnitCircle * randomness;
+			var randomFactor = Random.insideUnitCircle * Mathf.Ceil(randomness / 2);
 			
 			drop.transform.position = _droppingSpot.position + new Vector3(randomFactor.x, 0, randomFactor.y);
 			drop.transform.rotation = _droppingSpot.rotation;
+
+			if (poolKey == _bombPoolKey)
+			{
+				drop.GetComponent<Bomb>().OnDropped();
+			}
 		}
 		
 		private void SpawnDrop(string objKey)
