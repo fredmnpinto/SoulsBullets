@@ -18,8 +18,6 @@ namespace FPS.Scripts.Bosses
 		private void Start()
 		{
 			_objectPooler = ObjectPooler.Instance;
-			
-			
 		}
 
 		public void DropBomb()
@@ -42,6 +40,12 @@ namespace FPS.Scripts.Bosses
 			SpawnCluster(_bombMinionPoolKey, 3);
 		}
 
+		/*
+		 * Intancia um objeto numa localização random
+		 *
+		 * poolKey - Chave que identifica o tipo de objeto que pretendemos instanciar
+		 * randomness - 
+		 */
 		private void InstaciateAtLocation(string poolKey, float randomness)
 		{
 			var drop = _objectPooler.Spawn(poolKey);
@@ -53,11 +57,23 @@ namespace FPS.Scripts.Bosses
 			drop.transform.rotation = _droppingSpot.rotation;
 		}
 		
+		/*
+		 * "Spawna" uma unica instancia do objeto
+		 *
+		 * objKey - Objeto que pretendemos instanciar
+		 */
 		private void SpawnDrop(string objKey)
 		{
 			InstaciateAtLocation(objKey, 0f);
 		}
 
+		/*
+		 * "Spawna" varias instancias do objeto
+		 *
+		 * objKey - Objeto que pretendemos instanciar
+         * count - Numero de objetos que pretendemos instanciar
+		 *
+		 */
 		private void SpawnCluster(string objKey, int count)
 		{
 			for (int i = 0; i < count; i++)

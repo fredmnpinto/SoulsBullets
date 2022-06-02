@@ -58,11 +58,17 @@ public class Bomb : MonoBehaviour
 		PlaySpawnSfx();
 	}
 
+	/*
+	* Faz barulho quando a bomba e "spawnada"
+	*/
 	private void PlaySpawnSfx()
 	{
 		AudioUtility.CreateSFX(spawnSfx, transform.position, AudioUtility.AudioGroups.EnemyAttack, 0f, 1f);
 	}
 
+	/*
+	* Som da explosão da bomba
+	*/
 	private void PlayExplosionSfx()
 	{
 		AudioUtility.CreateSFX(explosionSfx, transform.position, AudioUtility.AudioGroups.EnemyAttack, 0f, 1f);
@@ -73,6 +79,9 @@ public class Bomb : MonoBehaviour
 		return hitMask == (hitMask | (1 << other.layer));
 	}
 
+	/*
+	* Quando a bomba recebe um hit, ela explode
+	*/
 	void OnHit()
 	{
 		Explode();

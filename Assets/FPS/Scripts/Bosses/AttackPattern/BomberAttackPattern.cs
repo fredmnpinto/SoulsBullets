@@ -42,7 +42,14 @@ namespace FPS.Scripts.Bosses
 
 			_timeOfNextAttack = Time.time;
 
-			/* Possible regular attacks */
+			/*
+			|--------------------------------------------         
+			| Possible regular attacks  
+			|-------------------------------------------
+			|
+			|
+			*/
+
 			// Drop a regular bomb
 			_attackList[AttackType.RegularAttack] = new Action(() => { _bomberModule.DropBomb(); });
 
@@ -51,7 +58,14 @@ namespace FPS.Scripts.Bosses
 				((Action)_attackList[AttackType.RegularAttack]).Invoke();
 			});
 
-			/* Possible attacks when with critical health */
+			/*
+			 |-----------------------------------------------------
+			 | Possible attacks when with critical health
+			 |-----------------------------------------------------
+			 |
+			 | 
+			*/
+
 			// Drop a regular bomb but faster
 			_criticalAttackList[AttackType.RegularAttack] = new Action(() =>
 			{
@@ -69,6 +83,11 @@ namespace FPS.Scripts.Bosses
 			_criticalAttackList[AttackType.OutOfRangeAttack] = new Action(() => { ((Action)_criticalAttackList[AttackType.RegularAttack]).Invoke(); });
 		}
 
+		/*
+		* Verifica se a vida do boss esta critica.
+		* Se sim, ele entra no modo Pissed, em que vai ficar mais rapido, e tambem vai
+		* começar a dar ataques criticos
+		*/
 		private void OnDamaged(float totalDamage, GameObject source)
 		{
 			if (!_isPissed && _bossHealth.IsCritical())
@@ -78,7 +97,7 @@ namespace FPS.Scripts.Bosses
 		}
 
 		override
-			public void Attack()
+		public void Attack()
 		{
 			ChooseAttack().Invoke();
 
@@ -86,11 +105,17 @@ namespace FPS.Scripts.Bosses
 		}
 
 		override
-			public bool CanAttack()
+		public bool CanAttack()
 		{
 			return _detectionModule.IsSeeingTarget && _timeOfNextAttack <= Time.time;
 		}
 
+		/*
+		* Reseta o cooldown do boss
+		*
+		* Ou seja, quando o boss ataque ele vai ter esperar x tempo para
+		* poder voltar a atacar de novo
+		*/
 		private void ResetCooldown()
 		{
 			var cdScale = 1f;
@@ -101,6 +126,14 @@ namespace FPS.Scripts.Bosses
 			_timeOfNextAttack = Time.time + k_AttackCooldown * cdScale;
 		}
 
+		/*
+		* Retorna um tipo de ataque
+		*
+		* Se o boss estiver no modo pissed, ele da ataques criticos
+		* 
+		* Se o jogador estiver longe do alcance do boss, ele vai usar ataques
+		* out of range
+		*/
 		private Action ChooseAttack()
 		{
 			var possibleAttacks = _attackList;
@@ -126,6 +159,9 @@ namespace FPS.Scripts.Bosses
 			OnPissed();
 		}
 
+		/*
+		* Boss entra no modo Pissed, fica mais rapido
+		*/
 		private void OnPissed()
 		{
 			Debug.Log("Got pissed");
